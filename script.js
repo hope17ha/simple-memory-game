@@ -3,6 +3,10 @@ const statusEl = document.querySelector('.status')
 const restartBtn = document.querySelector('.restart');
 const movesCountEl = document.querySelector('.counter')
 
+const matchSound = new Audio('sounds/match.wav');
+const failSound = new Audio('sounds/fail.wav');
+const winSound = new Audio('sounds/win.mp3');
+
 let selectedCards = [];
 let matchedCards = [];
 
@@ -60,10 +64,12 @@ cards.forEach(card => card.addEventListener('click', () => {
             selectedCards[0].classList.add('matched');
             selectedCards[1].classList.add('matched');
             matchedCards.push(selectedCards[0], selectedCards[1]);
+            matchSound.play();
             selectedCards = [];
            
         } else {
             statusEl.textContent = 'Try again!'
+            setTimeout(() => failSound.play(), 200)
             setTimeout(() => {
                 selectedCards[0].classList.remove('revealed');
                 selectedCards[1].classList.remove('revealed');
@@ -79,6 +85,7 @@ cards.forEach(card => card.addEventListener('click', () => {
 
     if (matchedCards.length === 16){
         statusEl.textContent = `You won using ${moveCount} moves! Click restart to start a new game!`
+        winSound.play();
     }
 
 
