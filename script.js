@@ -1,12 +1,15 @@
 const cards = document.querySelectorAll('.card');
 const statusEl = document.querySelector('.status')
 const restartBtn = document.querySelector('.restart');
+const movesCountEl = document.querySelector('.counter')
 
 let selectedCards = [];
 let matchedCards = [];
 
 const symbols = ['🍎', '🍎', '🍌', '🍌', '🍇', '🍇', '🍉', '🍉',
 '🍓', '🍓', '🥝', '🥝', '🍍', '🍍', '🍒', '🍒'];
+
+let moveCount = 0;
 
 shuffleCards();
 
@@ -29,7 +32,9 @@ function shuffleCards(){
     cards.forEach((card, index) => {
         card.dataset.symbol = shuffledCards[index];
         card.textContent = '';
-        card.classList.remove('matched', 'revealed')
+        card.classList.remove('matched', 'revealed');
+        statusEl.textContent = '';
+        movesCountEl.textContent = 'Moves: 0'
     });
 }
 
@@ -49,6 +54,8 @@ cards.forEach(card => card.addEventListener('click', () => {
     selectedCards.push(card);
 
     if (selectedCards.length === 2) {
+        moveCount ++;
+        movesCountEl.textContent = `Moves: ${moveCount}`
         if (selectedCards[0].dataset.symbol === selectedCards[1].dataset.symbol){
             selectedCards[0].classList.add('matched');
             selectedCards[1].classList.add('matched');
@@ -71,7 +78,7 @@ cards.forEach(card => card.addEventListener('click', () => {
 
 
     if (matchedCards.length === 16){
-        statusEl.textContent = 'You won! Click restart to start a new game!'
+        statusEl.textContent = `You won using ${moveCount} moves! Click restart to start a new game!`
     }
 
 
