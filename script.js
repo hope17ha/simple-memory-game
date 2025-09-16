@@ -7,6 +7,9 @@ const matchSound = new Audio('sounds/match.wav');
 const failSound = new Audio('sounds/fail.wav');
 const winSound = new Audio('sounds/win.mp3');
 
+const bestTime = localStorage.getItem('bestTime');
+
+
 let selectedCards = [];
 let matchedCards = [];
 
@@ -84,8 +87,16 @@ cards.forEach(card => card.addEventListener('click', () => {
 
 
     if (matchedCards.length === 16){
-        statusEl.textContent = `You won using ${moveCount} moves! Click restart to start a new game!`
+        
         winSound.play();
+        if (!bestTime || parseInt(bestTime) > moveCount){
+            localStorage.setItem('bestTime', moveCount);
+            statusEl.textContent = `You've set a new record! \n You won using ${moveCount} moves! Click restart to start a new game!`
+        } else {
+            statusEl.textContent = `You won using ${moveCount} moves! Click restart to start a new game! \n Current record: ${bestTime} moves`
+        }
+        
+       
     }
 
 
